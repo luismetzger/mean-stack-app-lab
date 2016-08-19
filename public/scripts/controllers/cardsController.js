@@ -1,7 +1,34 @@
-angular.module('CardsAgainstAssembly')
+angular.module('CardsAgainstAssembly', ['ngRoute'])
+
+  .config(function($routeProvider, $locationProvider) {
+      $routeProvider
+        .when('/:id', {
+            templateUrl: 'templates/flashcard.html',
+            controller: 'CardsControllers'
+        })
+      $locationProvider
+        .html5Mode({
+            enabled: true,
+            requiredBase: false
+        });
+  });
+
   .controller('CardsController', function($scope, $http) {
 
     $scope.all = [];
+    $scope.newFlashCard = {};
+
+    $scope.createFlashCard = function() {
+        $http
+            .post('https://shielded-forest-41789.herokuapp.com/api/flashcards', $scope.newFlashCard)
+                .then(function(response) {
+                    $scope.all.push(response.data);
+                }, function(response) {
+                    $scope.all = "Something went wrong";
+                })
+
+                $scope.newFlashCard = {};
+    }
 
     flashCards();
 
@@ -11,7 +38,7 @@ angular.module('CardsAgainstAssembly')
           .then(function(response) {
             $scope.all = response.data;
             console.log($scope.all);
-          })
+        })
     }
   });
 

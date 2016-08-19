@@ -21,7 +21,7 @@ header.navbar {
 h1 {
   font-weight: bold;
   letter-spacing: -2px;
-  max-width: 100px;
+
 }
 h1:after, .card h6:after {
   content: "™";
